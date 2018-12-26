@@ -11,6 +11,7 @@ import UIKit
 class TodoListViewController: UITableViewController {
     
     var itemArray = ["购买水杯","吃药","修改密码"]
+    let defaulte = UserDefaults.standard
 
 
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -19,6 +20,7 @@ class TodoListViewController: UITableViewController {
         let alert = UIAlertController(title: "添加一个新的todo项目", message: "", preferredStyle: .alert)
         let action = UIAlertAction(title: "添加项目", style: .default, handler: {(action) in
         self.itemArray.append(textField.text!)
+            self.defaulte.set(self.itemArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
         })
         alert.addTextField(configurationHandler: {(alertTextField) in
@@ -32,6 +34,9 @@ class TodoListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if let items = defaulte.array(forKey: "ToDoListArray") as? [String]{
+            itemArray = items
+        }
     }
     
     //table view data source methods
